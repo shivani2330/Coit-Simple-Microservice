@@ -1,0 +1,66 @@
+sudo su
+
+JAVA
+sudo yum update -y
+sudo amazon-linux-extras epel -y
+sudo amazon-linux-extras install java-openjdk11 -y
+
+Jenkins
+
+sudo wget -O /etc/yum.repos.d/jenkins.repo \
+    https://pkg.jenkins.io/redhat-stable/jenkins.repo
+
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+sudo yum update -y
+
+sudo yum install jenkins -y
+
+sudo service jenkins start
+
+sudo chkconfig jenkins on
+
+sudo service jenkins status
+
+ps -aux | grep -i jenkins
+
+cat /etc/passwd
+
+Git 
+
+sudo yum install git -y
+
+Docker 
+
+sudo yum update -y
+sudo yum install docker -y
+sudo systemctl  status docker
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo usermod -aG docker jenkins
+newgrp docker
+sudo systemctl enable --now docker
+
+
+MiniKube
+
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+sudo yum install conntrack-tools -y
+
+minikube start --vm-driver=none
+
+Kubectl 
+
+curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.6/2022-03-09/bin/linux/amd64/kubectl
+
+curl -o kubectl.sha256 https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.6/2022-03-09/bin/linux/amd64/kubectl.sha256
+
+chmod +x ./kubectl
+
+mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+
+echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
+
+kubectl version --short --client
