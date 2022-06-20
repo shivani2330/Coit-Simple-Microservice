@@ -59,7 +59,7 @@ pipeline
         }
         stage('Modify Frontend Yaml'){
             steps {
-                dir('/coit-frontend'){
+                dir('./coit-frontend'){
                 sh "pwd"
                 dir('./resource-manifest'){
                 sh "pwd"
