@@ -1,0 +1,57 @@
+pipeline
+{
+    agent any
+    environment {
+        DOCKERHUB_USERNAME = "shivani335130"
+        APP_NAME = "coit-frontend"
+        IMAGE_TAG = "${BUILD_NUMBER}"
+        IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
+        REGISTRY_CREDS = 'dockerhub'
+        DOCKER_REGISTRY = "https://hub.docker.com/repository/docker/shivani335130/frontend"
+        DockerFrontend =''
+        }
+
+    stages
+    {
+        stage('clean up Workspace')
+        {
+            steps{
+                script{
+                    cleanWs()
+                }
+            }
+        }
+        stage('Checkout SCM'){
+            steps{
+                git credentialsId: 'github', 
+                url: 'https://github.com/shivani2330/Coit-Simple-Microservice.git',
+                branch: 'develop'
+
+            }
+        }
+        stage('Build Image'){
+            steps{
+                dir('./coit-frontend'){
+                    script{
+                        def FRONTENDDOCKER = 'Dockerfile'
+                        DockerFrontend = docker.build("${DOCKERHUB_USERNAME}/frontend:${env.BUILD_TAG}","-f ${FRONTENDDOCKER} .")
+                        sh 'echo ${DockerFrontend}'
+                    }
+                }
+            }
+        }
+
+        stage('Push Docker Image'){
+            steps {
+                script{
+                    docker.withRegistry('', REGISTRY_CREDS ){
+                        DockerFrontend.push("${BUILD_NUMBER}")
+                        DockerFrontend.push('latest')
+                    }
+                }
+            }
+        }
+
+
+    }
+}
