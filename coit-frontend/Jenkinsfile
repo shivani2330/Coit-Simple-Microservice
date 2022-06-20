@@ -4,7 +4,7 @@ pipeline
     environment {
         DOCKERHUB_USERNAME = "shivani335130"
         APP_NAME = "frontend"
-        IMAGE_TAG = "${BUILD_NUMBER}"
+        IMAGE_TAG = "v1"
         IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
         REGISTRY_CREDS = 'dockerhub'
         DOCKER_REGISTRY = "https://hub.docker.com/repository/docker/shivani335130/frontend"
@@ -45,7 +45,7 @@ pipeline
             steps {
                 script{
                     docker.withRegistry('', REGISTRY_CREDS ){
-                        DockerFrontend.push("${BUILD_NUMBER}")
+                        //DockerFrontend.push("${BUILD_NUMBER}")
                         DockerFrontend.push('latest')
                     }
                 }
@@ -54,7 +54,7 @@ pipeline
 
         stage('Cleaning up') {
             steps { 
-                sh "docker rmi $DOCKERHUB_USERNAME/frontend:$BUILD_NUMBER" 
+                sh "docker rmi $DOCKERHUB_USERNAME/frontend:latest" 
             }
         }
         stage('Modify Frontend Yaml'){
@@ -64,7 +64,8 @@ pipeline
                 dir('./resource-manifest'){
                 sh "pwd"
                 sh "cat coit-frontend-deployment.yaml"
-
+                sh "sed -i 's/${APP_NAME}.*/${APP_NAME}:${IMAGE_TAG}/g' coit-frontend-deployment.yaml"
+                sh "cat coit-frontend-deployment.yml"
                 }
                 }
                
