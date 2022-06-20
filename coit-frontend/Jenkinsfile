@@ -59,12 +59,13 @@ pipeline
         }
         stage('Modify Frontend Yaml'){
             steps {
-                dir('./coit-frontend'){
-                sh "cd /resource-manifests"
+                dir('/coit-frontend'){
+                sh "pwd"
+                dir('./resource-manifest'){
+                sh "pwd"
                 sh "cat coit-frontend-deployment.yaml"
-                //sh "sed -i 's/${APP_NAME}.*/${APP_NAME}:${IMAGE_TAG}/g' coit-frontend-deployment.yaml"
-                //sh "coit-frontend-deployment.yml"
 
+                }
                 }
                
             }
