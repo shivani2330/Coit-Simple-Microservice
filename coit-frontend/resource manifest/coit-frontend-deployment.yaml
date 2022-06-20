@@ -25,7 +25,7 @@ spec:
           persistentVolumeClaim:
             claimName: coit-frontend-fast
       containers:
-        - image: coitlearning/coit-frontend:latest
+        - image: shivani335130/frontend:latest
           imagePullPolicy: IfNotPresent                         # 7
           name: coit-frontend
           ports:

@@ -3,7 +3,7 @@ pipeline
     agent any
     environment {
         DOCKERHUB_USERNAME = "shivani335130"
-        APP_NAME = "coit-frontend"
+        APP_NAME = "frontend"
         IMAGE_TAG = "${BUILD_NUMBER}"
         IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
         REGISTRY_CREDS = 'dockerhub'
@@ -52,11 +52,23 @@ pipeline
             }
         }
 
-         stage('Cleaning up') {
+        stage('Cleaning up') {
             steps { 
                 sh "docker rmi $DOCKERHUB_USERNAME/frontend:$BUILD_NUMBER" 
             }
-        } 
+        }
+        stage('Modify Frontend Yaml'){
+            steps {
+                dir('./coit-frontend'){
+                sh "cd /resource-manifests"
+                sh "cat coit-frontend-deployment.yaml"
+                //sh "sed -i 's/${APP_NAME}.*/${APP_NAME}:${IMAGE_TAG}/g' coit-frontend-deployment.yaml"
+                //sh "coit-frontend-deployment.yml"
+
+                }
+               
+            }
+        }
 
 
     }
