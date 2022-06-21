@@ -64,3 +64,9 @@ mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/
 echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
 
 kubectl version --short --client
+
+
+
+Kustomize
+
+curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
