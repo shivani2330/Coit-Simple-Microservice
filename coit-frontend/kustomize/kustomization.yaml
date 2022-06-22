@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - ./coit-frontend-deployment.yaml
   - ./service-coit-frontend-lb.yaml
+  - ./frontend-pvc.yaml
 images:
   - name: shivani2330/frontend
     newTag: 4.0.0
