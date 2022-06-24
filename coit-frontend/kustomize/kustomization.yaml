@@ -5,7 +5,7 @@ resources:
   - ./service-coit-frontend-lb.yaml
   - ./frontend-pvc.yaml
 images:
-  - name: shivani2330/frontend
+  - name: shivani2330/frontend:latest
     newTag: 4.0.0
 namePrefix: frontend-
 nameSuffix: -development
